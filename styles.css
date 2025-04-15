@@ -1,0 +1,270 @@
+/* Global Styles */
+.animation-slide-up {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideUp 0.6s ease forwards;
+}
+
+.animation-delay-200 {
+    animation-delay: 0.2s;
+}
+
+.animation-delay-400 {
+    animation-delay: 0.4s;
+}
+
+.animation-scale-in {
+    animation: scaleIn 0.3s ease forwards;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+
+
+
+
+/* Add these styles to your existing CSS */
+
+/* Fix for category cards */
+.category-card {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+    border-radius: 0.5rem;
+}
+
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%);
+    z-index: 1;
+}
+
+.category-card > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* Fix for rating stars */
+.star-rating {
+    display: flex;
+    align-items: center;
+}
+
+.star {
+    color: #D1D5DB;
+    font-size: 1rem;
+}
+
+.star.filled {
+    color: #F59E0B;
+}
+
+.star.half-filled {
+    position: relative;
+    overflow: hidden;
+}
+
+.star.half-filled::before {
+    content: '\f005';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    overflow: hidden;
+    color: #F59E0B;
+}
+
+/* Recipe detail modal styles */
+#recipe-detail-modal {
+    transition: opacity 0.3s ease;
+}
+
+#recipe-detail-modal.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Responsive fixes */
+@media (max-width: 640px) {
+    .category-card {
+        height: 140px;
+    }
+}
+
+
+
+/* Welcome message styles */
+#welcome-msg {
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    transition: all 0.3s ease;
+}
+
+#welcome-msg:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+#welcome-msg i {
+    margin-right: 0.5rem;
+}
+
+/* Logout button styles */
+
+
+/* For mobile responsiveness */
+@media (max-width: 640px) {
+    #welcome-msg span {
+        display: none;
+    }
+    
+    #welcome-msg i {
+        margin-right: 0;
+    }
+}
+
+
+
+
+/* Hero Section */
+.hero-bg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/api/placeholder/1200/600');
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+}
+
+/* Recipe Cards */
+.recipe-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.recipe-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Category Cards */
+.category-card {
+    transition: transform 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.category-card:hover {
+    transform: scale(1.05);
+}
+
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.6));
+    z-index: 1;
+}
+
+.category-card > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* Rating Stars */
+.star-rating {
+    color: #EEB111;
+}
+
+/* Image Drop Area */
+#image-drop-area.active {
+    border-color: #48BB78;
+    background-color: rgba(72, 187, 120, 0.1);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #48BB78;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #38A169;
+}
+
+/* Ingredient and step animations */
+.ingredient-row, .step-row {
+    opacity: 0;
+    animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Toast animation */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+#toast.show {
+    animation: slideInRight 0.3s ease forwards;
+    display: block;
+    opacity: 1;
+}

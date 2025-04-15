@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlavorShare - Recipe Sharing Community</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- Navigation -->
+    <nav class="bg-green-600 text-white shadow-lg sticky top-0 z-50 transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-utensils text-2xl"></i>
+                    <a href="#" class="text-2xl font-bold tracking-tight">FlavorShare</a>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#" class="hover:text-green-200 transition-colors duration-300">Home</a>
+                    <a href="#categories" class="hover:text-green-200 transition-colors duration-300">Categories</a>
+                    <a href="#popular" class="hover:text-green-200 transition-colors duration-300">Popular</a>
+                    <a href="#" class="hover:text-green-200 transition-colors duration-300" id="upload-link">Share Recipe</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <input type="text" placeholder="Search recipes..." id="search-input" 
+                            class="py-1 px-3 rounded-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-400 w-40 md:w-64 transition-all duration-300">
+                        <button id="search-btn" class="absolute right-2 top-1 text-gray-600">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <button id="login-btn" class="bg-white text-green-600 py-1 px-4 rounded hover:bg-green-100 transition-colors duration-300">Login</button>
+                    <button class="md:hidden" id="mobile-menu-btn">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile Menu -->
+            <div class="md:hidden hidden transition-all duration-300 py-3" id="mobile-menu">
+                <a href="#" class="block py-2 hover:text-green-200 transition-colors duration-300">Home</a>
+                <a href="#categories" class="block py-2 hover:text-green-200 transition-colors duration-300">Categories</a>
+                <a href="#popular" class="block py-2 hover:text-green-200 transition-colors duration-300">Popular</a>
+                <a href="#" class="block py-2 hover:text-green-200 transition-colors duration-300 mobile-upload">Share Recipe</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative bg-gray-900 text-white overflow-hidden">
+        <!-- Add video background -->
+        <div class="absolute inset-0 z-0 overflow-hidden">
+            <video class="absolute min-w-full min-h-full object-cover" autoplay muted loop playsinline>
+                <source src="sample.mp4" type="video/mp4">
+                <!-- Fallback if video doesn't load -->
+                <div class="hero-bg-overlay"></div>
+            </video>
+            <!-- Overlay to make text more readable -->
+            <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+        </div>
+        
+        <!-- Keep your existing content, but make sure it's above the video with z-10 -->
+        <div class="container mx-auto px-4 py-16 md:py-24 relative z-10">
+            <div class="md:w-1/3">
+                <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4 animation-slide-up">Share Your Culinary Masterpieces</h1>
+                <p class="text-xl md:text-2xl mb-8 text-gray-200 animation-slide-up animation-delay-200">Join our community of food enthusiasts and discover amazing recipes from around the world.</p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 animation-slide-up animation-delay-400">
+                    <button id="discover-btn" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-300">
+                        Discover Recipes
+                    </button>
+                    <button id="create-account-btn" class="bg-transparent hover:bg-white hover:text-green-600 text-white font-semibold py-3 px-6 rounded-lg border-2 border-white transition-colors duration-300">
+                        Create Account
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 bg-white" id="recent">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-800">All Recipes</h2>
+            </div>
+    <!-- Add Filter UI -->
+    <div class="flex flex-wrap justify-center mb-8" id="category-filters">
+        <div class="flex flex-wrap items-center justify-center space-x-2 space-y-2 sm:space-y-0">
+            <span class="font-medium text-gray-700">Filter by:</span>
+            <button class="category-filter py-1 px-4 rounded-full bg-gray-200 hover:bg-green-100 text-gray-700 transition-colors duration-300" data-category="1">Breakfast</button>
+            <button class="category-filter py-1 px-4 rounded-full bg-gray-200 hover:bg-green-100 text-gray-700 transition-colors duration-300" data-category="2">Lunch</button>
+            <button class="category-filter py-1 px-4 rounded-full bg-gray-200 hover:bg-green-100 text-gray-700 transition-colors duration-300" data-category="3">Dinner</button>
+            <button class="category-filter py-1 px-4 rounded-full bg-gray-200 hover:bg-green-100 text-gray-700 transition-colors duration-300" data-category="4">Dessert</button>
+            <button class="category-filter py-1 px-4 rounded-full bg-gray-200 hover:bg-green-100 text-gray-700 transition-colors duration-300" data-category="5">Vegetarian</button>
+            <button class="category-filter py-1 px-4 rounded-full bg-gray-200 hover:bg-green-100 text-gray-700 transition-colors duration-300" data-category="6">Vegan</button>
+            <button class="category-filter py-1 px-4 rounded-full bg-gray-200 hover:bg-green-100 text-gray-700 transition-colors duration-300" data-category="7">Quick & Easy</button>
+            <button id="clear-filters" class="py-1 px-4 rounded-full bg-red-100 hover:bg-red-200 text-red-700 transition-colors duration-300 hidden">Clear Filter</button>
+        </div>
+    </div>
+    
+    <!-- Active Filter Indicator -->
+    <div id="active-filter" class="text-center mb-6 hidden">
+        <span class="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">
+            Showing: <span id="active-category">All Recipes</span>
+        </span>
+    </div>
+    
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="recent-recipes">
+                <!-- Recipes will be loaded here -->
+                <div class="col-span-full text-center py-8">
+                    <p class="text-gray-500">Loading recipes...</p>
+                </div>
+            </div>
+            <!-- Category Filters -->
+
+        </div>
+    </section>
+
+
+    <section class="py-12 bg-gray-100" id="featured">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-800">Featured Recipes</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="featured-recipes">
+                <!-- Featured recipes will be loaded here -->
+                <div class="col-span-full text-center py-8">
+                    <p class="text-gray-500">Loading featured recipes...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Newsletter -->
+    <section class="py-12 bg-green-600 text-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="md:w-1/2 mb-8 md:mb-0">
+                    <h2 class="text-3xl font-bold mb-4">Never Miss a Recipe</h2>
+                    <p class="text-lg text-green-100">Subscribe to our newsletter and get weekly recipe inspirations.</p>
+                </div>
+                <div class="md:w-1/2">
+                    <form id="newsletter-form" class="flex flex-col sm:flex-row">
+                        <input type="email" placeholder="Your email address" required
+                            class="flex-grow py-3 px-4 mb-3 sm:mb-0 sm:mr-3 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-400">
+                        <button type="submit" class="bg-white text-green-600 font-semibold py-3 px-6 rounded-lg transition-colors duration-300 hover:bg-green-100">
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">FlavorShare</h3>
+                    <p class="text-gray-400">Share and discover amazing recipes from food enthusiasts around the world.</p>
+                    <div class="flex space-x-4 mt-6">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Browse Recipes</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Submit Recipe</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Categories</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Breakfast</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Main Course</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Desserts</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Vegetarian</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Quick & Easy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Contact Us</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-start space-x-2">
+                            <i class="fas fa-map-marker-alt mt-1"></i>
+                            <span>123 Culinary Street, Foodville</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <i class="fas fa-envelope mt-1"></i>
+                            <span>hello@flavorshare.com</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <i class="fas fa-phone mt-1"></i>
+                            <span>+1 (555) 123-4567</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 FlavorShare. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal: Login/Register -->
+    <div id="auth-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6 relative animation-scale-in">
+            <button id="close-auth-modal" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="text-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800">Welcome to FlavorShare</h3>
+                <p class="text-gray-600">Sign in to share your recipes and save your favorites</p>
+            </div>
+            <div class="flex mb-6">
+                <button id="login-tab" class="flex-1 py-2 font-semibold border-b-2 border-green-500 text-green-600">Login</button>
+                <button id="register-tab" class="flex-1 py-2 font-semibold border-b-2 border-gray-200 text-gray-500">Register</button>
+            </div>
+            <div id="login-form" class="block">
+                <form>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-semibold mb-2" for="email">Email</label>
+                        <input class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" id="email" type="email" placeholder="Your email address">
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-semibold mb-2" for="password">Password</label>
+                        <input class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" id="password" type="password" placeholder="Your password">
+                    </div>
+                    <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300">
+                        Sign In
+                    </button>
+                </form>
+                <div class="text-center mt-4">
+                    <a href="#" class="text-green-600 hover:text-green-700 text-sm">Forgot your password?</a>
+                </div>
+            </div>
+            <div id="register-form" class="hidden">
+                <form>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-semibold mb-2" for="name">Full Name</label>
+                        <input class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" id="name" type="text" placeholder="Your full name">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-semibold mb-2" for="reg-email">Email</label>
+                        <input class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" id="reg-email" type="email" placeholder="Your email address">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-semibold mb-2" for="reg-password">Password</label>
+                        <input class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" id="reg-password" type="password" placeholder="Create a password">
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-semibold mb-2" for="confirm-password">Confirm Password</label>
+                        <input class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" id="confirm-password" type="password" placeholder="Confirm your password">
+                    </div>
+                    <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300">
+                        Create Account
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Upload Recipe -->
+    <div id="upload-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl max-w-3xl w-full p-6 relative animation-scale-in">
+            <button id="close-upload-modal" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="text-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800">Share Your Recipe</h3>
+                <p class="text-gray-600">Fill out the form below to share your culinary creation</p>
+            </div>
+            <form id="recipe-form">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-gray-700 text-sm font-semibold mb-2" for="recipe-title">Recipe Title</label>
+                        <input class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" id="recipe-title" type="text" placeholder="Give your recipe a name">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-semibold mb-2" for="recipe-category">Category</label>
+                        <select id="recipe-category" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
+                            <option value="">Select a category</option>
+                            <option value="1">Breakfast</option>
+                            <option value="2">Lunch</option>
+                            <option value="3">Dinner</option>
+                            <option value="4">Dessert</option>
+                            <option value="5">Vegetarian</option>
+                            <option value="6">Vegan</option>
+                            <option value="7">Quick & Easy</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-semibold mb-2" for="recipe-description">Description</label>
+                    <textarea class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" id="recipe-description" rows="3" placeholder="Tell us about your recipe"></textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-semibold mb-2" for="recipe-ingredients">Ingredients</label>
+                    <div id="ingredients-container">
+                        <div class="ingredient-row flex mb-2">
+                            <input class="w-1/4 mr-2 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" type="text" placeholder="Amount">
+                            <input class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" type="text" placeholder="Ingredient">
+                            <button type="button" class="ml-2  text-white rounded-lg px-3 py-2 remove-ingredient">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="button" id="add-ingredient" class="mt-2 text-green-600 hover:text-green-700 flex items-center">
+                        <i class="fas fa-plus mr-1"></i> Add Ingredient
+                    </button>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-semibold mb-2" for="recipe-steps">Preparation Steps</label>
+                    <div id="steps-container">
+                        <div class="step-row flex mb-2">
+                            <span class="step-number flex items-center justify-center bg-green-500 text-white rounded-full w-6 h-6 mr-2 mt-2">1</span>
+                            <input class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" type="text" placeholder="Describe this step">
+                            <button type="button" class="ml-2 text-white rounded-lg px-3 py-2 remove-step">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="button" id="add-step" class="mt-2 text-green-600 hover:text-green-700 flex items-center">
+                        <i class="fas fa-plus mr-1"></i> Add Step
+                    </button>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-semibold mb-2" for="recipe-image">Recipe Image</label>
+                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center" id="image-drop-area">
+                        <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-2"></i>
+                        <p class="text-gray-600">Drag & drop an image or click to browse</p>
+                        <input type="file" id="recipe-image" class="hidden" accept="image/*">
+                        <button type="button" id="browse-btn" class="mt-2 text-green-600 hover:text-green-700">Browse Files</button>
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <button type="button" id="cancel-upload" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-6 rounded-lg mr-4 transition-colors duration-300">
+                        Cancel
+                    </button>
+                    <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-300">
+                        Share Recipe
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg hidden transition-opacity duration-300 opacity-0">
+        <span id="toast-message">Recipe submitted successfully!</span>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
